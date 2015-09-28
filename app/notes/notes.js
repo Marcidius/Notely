@@ -3,7 +3,8 @@
  */
 (function() {
     angular.module('notely.notes', [
-        'ui.router'
+        'ui.router',
+        'notely.notes.service'
     ])
         .controller('NotesController', NotesController)
         .config(notesConfig);
@@ -25,8 +26,14 @@
 
     }
 
-    NotesController['$inject'] = ['$scope', '$state'];
-    function NotesController($scope, $state) {
+    NotesController['$inject'] = ['$scope', '$state', 'notesservice'];
+    function NotesController($scope, $state, notesservice) {
+        notesservice.fetchNotes(function(notes) {
+            console.log('Callback!');
+            $scope.notes = notes;
+        });
+        ///  THIS MIGHT BE KEY TO LOADING DATA FIRST IN THE PROBLEM WITH CAPPS
         $state.go('notes.form');
+
     }
 })();
