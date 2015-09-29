@@ -43,8 +43,7 @@
 
     NotesFormController['$inject'] = ['$scope', '$state', 'notesservice'];
     function NotesFormController($scope, $state, notesservice) {
-        notesservice.fetchNotes(function(notes) {
-            //console.log($state.params.noteId);
+        notesservice.fetchNotes(function() {
             $scope.note = notesservice.findById($state.params.noteId);
             console.log($scope.note.title);
 
