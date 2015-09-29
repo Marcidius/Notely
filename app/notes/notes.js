@@ -1,7 +1,7 @@
 /**
  * Created by ryan.king on 9/28/2015.
  */
-(function() {
+(function () {
     angular.module('notely.notes', [
         'ui.router',
         'notely.notes.service'
@@ -20,7 +20,7 @@
                 templateUrl: '/notes/notes.html',
                 controller: NotesController,
                 resolve: {
-                    notePromise: function(notesservice) {
+                    notePromise: function (notesservice) {
                         return notesservice.fetchNotes();
                     }
 
@@ -45,12 +45,11 @@
     }
 
 
-
     NotesFormController['$inject'] = ['$scope', '$state', 'notesservice'];
     function NotesFormController($scope, $state, notesservice) {
         $scope.note = notesservice.findById($state.params.noteId);
-        $scope.buttonText = function() {
-            if($scope.note.id) {
+        $scope.buttonText = function () {
+            if ($scope.note.id) {
                 return 'Update';
             }
             else {
@@ -58,27 +57,34 @@
             }
         };
 
-        $scope.createNew = function() {
-          notesservice.createNew();
+        $scope.createNew = function () {
+            notesservice.createNew();
         };
 
-        $scope.createOrUpdateNote = function() {
+        $scope.createOrUpdateNote = function () {
             notesservice.createOrUpdateNote($scope.note)
-                .success(function(noteData) {
+                .success(function (noteData) {
                     $scope.note = noteData.note;
                 });
         };
 
-        /*
-
-        $scope.saveNote = function() {
-            notesservice.saveNote($scope.note);
+        $scope.deleteNote = function () {
+            notesservice.deleteNote($scope.note)
+                .success(function (noteData) {
+                    $state.go('notes.form', {noteId: undefined});
+                })
 
         };
+        /*
 
-        $scope.updateNote = function() {
-            notesservice.savenote($scope.note);
-        }*/
+         $scope.saveNote = function() {
+         notesservice.saveNote($scope.note);
+
+         };
+
+         $scope.updateNote = function() {
+         notesservice.savenote($scope.note);
+         }*/
 
 
         ///  THIS MIGHT BE KEY TO LOADING DATA FIRST IN THE PROBLEM WITH CAPPS
