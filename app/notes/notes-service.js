@@ -19,15 +19,10 @@
 
         }
 
-        this.fetchNotes = function (callback) {
-            $http.get(neverNoteBaseURL + 'notes?api_key=' + user.apiKey)
+        this.fetchNotes = function () {
+            return $http.get(neverNoteBaseURL + 'notes?api_key=' + user.apiKey)
                 .success(function(notesData) {
                     notes = notesData;
-                    //debugger;
-                    if (callback) {
-                        callback(notes);
-                        //return notes;
-                    }
                 });
         };
 

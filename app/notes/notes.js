@@ -18,24 +18,29 @@
                 url: '/notes',
                 abstract: true,
                 templateUrl: '/notes/notes.html',
-                controller: NotesController
+                controller: NotesController,
+                resolve: {
+                    notePromise: function(notesservice) {
+                        return notesservice.fetchNotes();
+                    }
+
+                }
             })
 
             .state('notes.form', {
                 url: '/{noteId}',
                 templateUrl: '/notes/notes-form.html',
-                controller: NotesFormController
+                controller: NotesFormController,
+                controllerAs: 'vm'
             });
 
     }
 
     NotesController['$inject'] = ['$scope', '$state', 'notesservice'];
     function NotesController($scope, $state, notesservice) {
-        notesservice.fetchNotes(function(notes) {
-            $scope.notes = notes;
-        });
-        ///  THIS MIGHT BE KEY TO LOADING DATA FIRST IN THE PROBLEM WITH CAPPS
-        //$state.go('notes.form');
+        // this calls the .all function in the service which is verified to be
+        // PRE-POPULATED DUE TO THE RESOLVE happening on the state.
+        $scope.notes = notesservice.all();
 
     }
 
@@ -54,7 +59,7 @@
         };
 
         $scope.createNew = function() {
-          notesservice.createNew();  
+          notesservice.createNew();
         };
 
         $scope.createOrUpdateNote = function() {
