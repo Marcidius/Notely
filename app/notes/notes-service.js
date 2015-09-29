@@ -3,10 +3,10 @@
  */
 (function () {
     angular.module('notely.notes.service', [])
-        .service('notesservice', notesService);
+        .service('notesservice', notesservice);
 
-    notesService['$inject'] = ['$http'];
-    function notesService($http) {
+    notesservice['$inject'] = ['$http', '$filter'];
+    function notesservice($http, $filter) {
         var notes = [];
         var neverNoteBaseURL = 'https://nevernote-1150.herokuapp.com/api/v1/';
         var user = {
@@ -20,16 +20,26 @@
         }
 
         this.fetchNotes = function (callback) {
-            var notes = [];
             $http.get(neverNoteBaseURL + 'notes?api_key=' + user.apiKey)
                 .success(function(notesData) {
                     notes = notesData;
-                    debugger;
+                    //debugger;
                     if (callback) {
                         callback(notes);
                         //return notes;
                     }
                 });
+        };
+
+        this.all = function() {
+            console.log(notes);
+        };
+
+        this.findById = function (noteId) {
+            return (
+                $filter('filter')(notes, {id: parseInt(noteId)}, true)[0] || {}
+            );
+            //debugger;
         }
     }
 })();
