@@ -43,11 +43,13 @@
 
     NotesFormController['$inject'] = ['$scope', '$state', 'notesservice'];
     function NotesFormController($scope, $state, notesservice) {
-        notesservice.fetchNotes(function() {
-            $scope.note = notesservice.findById($state.params.noteId);
-            console.log($scope.note.title);
+        $scope.note = notesservice.findById($state.params.noteId);
+        $scope.saveNote = function() {
+            notesservice.saveNote($scope.note);
 
-        });
+        };
+
+
         ///  THIS MIGHT BE KEY TO LOADING DATA FIRST IN THE PROBLEM WITH CAPPS
         //$state.go('notes.form');
 

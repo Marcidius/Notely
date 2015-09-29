@@ -31,15 +31,29 @@
                 });
         };
 
+        //Outputs all notes
         this.all = function() {
-            console.log(notes);
+            //console.log(notes);
+            return notes;
         };
 
         this.findById = function (noteId) {
             return (
                 $filter('filter')(notes, {id: parseInt(noteId)}, true)[0] || {}
             );
-            //debugger;
+        };
+
+        this.saveNote = function(note) {
+            $http.post(neverNoteBaseURL + '/notes', {
+                api_key: user.apiKey,
+                note: {
+                    title: note.title,
+                    body_html: note.body_html
+                }
+            })
+                .success(function(noteData) {
+                    notes.unshift(noteData.note);
+                })
         }
     }
 })();
