@@ -95,6 +95,10 @@
                 })
         };
 
+        this.createNew = function() {
+
+        }
+
 
     }
 })();
