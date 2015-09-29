@@ -4,6 +4,7 @@
 (function () {
     angular.module('notely.notes', [
         'ui.router',
+        'textAngular',
         'notely.notes.service'
     ])
         .controller('NotesController', NotesController)
@@ -48,13 +49,12 @@
     NotesFormController['$inject'] = ['$scope', '$state', 'notesservice'];
     function NotesFormController($scope, $state, notesservice) {
         $scope.note = notesservice.findById($state.params.noteId);
+
         $scope.buttonText = function () {
             if ($scope.note.id) {
                 return 'Update';
             }
-            else {
-                return 'Create';
-            }
+            return 'Create';
         };
 
         $scope.createNew = function () {
