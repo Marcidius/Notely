@@ -38,22 +38,63 @@
         };
 
         this.findById = function (noteId) {
-            return (
+            var note =  (
                 $filter('filter')(notes, {id: parseInt(noteId)}, true)[0] || {}
             );
+
+            return angular.copy(note);
         };
 
-        this.saveNote = function(note) {
-            $http.post(neverNoteBaseURL + '/notes', {
-                api_key: user.apiKey,
-                note: {
-                    title: note.title,
-                    body_html: note.body_html
-                }
-            })
+        this.replaceNote = function(note) {
+          for(var i = 0; i < notes.length; i++) {
+              if(notes[i].id === note.id)
+              {
+                  notes.splice(i, 1);
+                  notes.unshift(note);
+                  break;
+              }
+          }
+        };
+
+
+        this.createOrUpdateNote = function(note) {
+            if (note.hasOwnProperty('id')) {
+                this.updateNote(note);
+            }
+            else {
+                this.createNote(note);
+            }
+        };
+
+        this.createNote = function(note) {
+            return $http.post(neverNoteBaseURL + '/notes', {
+                    api_key: user.apiKey,
+                    note: {
+                        title: note.title,
+                        body_html: note.body_html
+                    }
+                })
                 .success(function(noteData) {
                     notes.unshift(noteData.note);
+                    $state.go('notes.form', { noteId: noteData.note.id });
                 })
-        }
+        };
+
+        this.updateNote = function(note) {
+            var vm = this;
+            return $http.put(neverNoteBaseURL + '/notes/' + note.id, {
+                    api_key: user.apiKey,
+                    note: {
+                        title: note.title,
+                        body_html: note.body_html
+                    }
+                })
+                .success(function(noteData) {
+                    vm.replaceNote(noteData.note);
+                    console.log('Updated note ' + note.id);
+                })
+        };
+
+
     }
 })();
