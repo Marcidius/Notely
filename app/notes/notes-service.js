@@ -59,10 +59,10 @@
 
         this.createOrUpdateNote = function(note) {
             if (note.hasOwnProperty('id')) {
-                this.updateNote(note);
+                return this.updateNote(note);
             }
             else {
-                this.createNote(note);
+                return this.createNote(note);
             }
         };
 
