@@ -14,7 +14,7 @@
                 url: '/login',
                 //abstract: true,
                 templateUrl: '/login/login.html',
-                controller: LoginController
+                controller: LoginController,
                 resolve: {
                     loggedOut: function ($q, $state, $timeout, CurrentUser) {
                         var deferred = $q.defer();

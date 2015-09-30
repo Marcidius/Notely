@@ -55,7 +55,7 @@
     function NotesController($scope, $state, notesservice) {
         // this calls the .all function in the service which is verified to be
         // PRE-POPULATED DUE TO THE RESOLVE happening on the state.
-        $scope.notes = notesservice.all();
+        //$scope.notes = notesservice.all();
 
     }
 
