@@ -1,13 +1,14 @@
-(function() {
-  var app = angular.module('notely', [
-    'ui.router',
-    'notely.notes'
-  ]);
+(function () {
+    var app = angular.module('notely', [
+        'ui.router',
+        'notely.notes',
+        'notely.login'
+    ]);
 
-  function config($urlRouterProvider) {
-    $urlRouterProvider.otherwise('/notes/');
-  }
+    function config($urlRouterProvider) {
+        $urlRouterProvider.otherwise('/notes/');
+    }
 
-  config['$inject'] = ['$urlRouterProvider'];
-  app.config(config);
+    config['$inject'] = ['$urlRouterProvider'];
+    app.config(config);
 })();

@@ -3,7 +3,6 @@
  */
 (function () {
     angular.module('notely.notes', [
-        'ui.router',
         'textAngular',
         'notely.notes.service'
     ])
