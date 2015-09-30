@@ -5,8 +5,8 @@
     angular.module('notely.login')
         .service('loginService', loginService);
 
-    loginService['$inject'] = ['$http', 'constants', 'authTokenService']
-    function loginService($http, constants, authTokenService) {
+    loginService['$inject'] = ['$http', 'constants', 'authTokenService', 'userService', '$state'];
+    function loginService($http, constants, authTokenService, userService, $state) {
         this.login = function(user) {
             return $http.post(constants.apiBasePath + 'session', {
                 user: {
@@ -15,8 +15,15 @@
                 }
             })
                 .success(function (userData) {
+                    userService.set(userData.user);
                     authTokenService.set(userData.auth_token);
                 });
-        }
+        };
+
+        this.logout = function() {
+            authTokenService.clear();
+            userService.clear();
+            $state.go('login');
+        };
     }
 })();

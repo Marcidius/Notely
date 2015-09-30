@@ -20,10 +20,25 @@
                 templateUrl: '/notes/notes.html',
                 controller: NotesController,
                 resolve: {
-                    notePromise: function (notesservice) {
-                        return notesservice.fetchNotes();
+                    notesLoaded: function($q, $state, $timeout, notesservice, userService) {
+                        var deferred = $q.defer();
+                        $timeout(function() {
+                            if (userService.get().id) {
+                                notesservice.fetchNotes().success(function() {
+                                    deferred.resolve();
+                                })
+                                    .error(function() {
+                                        deferred.reject();
+                                        $state.go('login');
+                                    });
+                            }
+                            else {
+                                deferred.reject();
+                                $state.go('login');
+                            }
+                        });
+                        return deferred.promise;
                     }
-
                 }
             })
 
