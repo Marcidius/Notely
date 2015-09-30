@@ -13,15 +13,15 @@
             replace: true,
             scope: {},
             //template: '<div>OH HAI THERE!</div>'
-            templateUrl: '/directives/bd-notes-list.html',
-            controller: notesListController
-            //controllerAs: 'vm'
+            templateUrl: '/notes/notes-list.html',
+            controller: notesListController,
+            controllerAs: 'vm'
         };
     }
 
 
-    notesListController['$inject'] = ['$scope', 'notesservice'];
-    function notesListController($scope, notesservice) {
-        $scope.notes = notesservice.all();
+    notesListController['$inject'] = ['notesservice'];
+    function notesListController(notesservice) {
+        this.notes = notesservice.all();
     }
 })();
