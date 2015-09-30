@@ -5,27 +5,18 @@
     angular.module('notely.login')
         .service('loginService', loginService);
 
-    loginService['$inject'] = ['$http', 'constants']
-    function loginService($http, constants) {
+    loginService['$inject'] = ['$http', 'constants', 'authTokenService']
+    function loginService($http, constants, authTokenService) {
         this.login = function(user) {
             return $http.post(constants.apiBasePath + 'session', {
-                //api_key: user.apiKey,
                 user: {
                     username: user.username,
                     password: user.password
                 }
             })
                 .success(function (userData) {
-                //notes.unshift(noteData.note);
-                //$state.go('notes.form', {noteId: noteData.note.id});
-                debugger;
+                    authTokenService.set(userData.auth_token);
                 });
-
-
-
-            /*return $http.post();
-            console.log('Inside loginService.login');
-            return {}*/
         }
     }
 })();
