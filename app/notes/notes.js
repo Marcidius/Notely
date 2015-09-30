@@ -6,7 +6,6 @@
         'textAngular',
         'notely.notes.service'
     ])
-        .controller('NotesController', NotesController)
         .controller('NotesFormController', NotesFormController)
         .config(notesConfig);
 
@@ -18,7 +17,6 @@
                 url: '/notes',
                 abstract: true,
                 templateUrl: '/notes/notes.html',
-                controller: NotesController,
                 resolve: {
                     notesLoaded: function($q, $state, $timeout, notesservice, userService) {
                         var deferred = $q.defer();
@@ -50,15 +48,6 @@
             });
 
     }
-
-    NotesController['$inject'] = ['$scope', '$state', 'notesservice'];
-    function NotesController($scope, $state, notesservice) {
-        // this calls the .all function in the service which is verified to be
-        // PRE-POPULATED DUE TO THE RESOLVE happening on the state.
-        //$scope.notes = notesservice.all();
-
-    }
-
 
     NotesFormController['$inject'] = ['$scope', '$state', 'notesservice'];
     function NotesFormController($scope, $state, notesservice) {
