@@ -5,14 +5,21 @@
     angular.module('notely.login')
         .factory('authInterceptor', authInterceptor);
 
-        authInterceptor['$inject'] = ['authTokenService'];
-        function authInterceptor(authTokenService) {
+        authInterceptor['$inject'] = ['authTokenService', 'constants'];
+        function authInterceptor(authTokenService, constants) {
            return {
                request: function(config) {
                    //config.headers = config.headers || {};
 
                    var token = authTokenService.get();
-                   if(token) {
+                   if(token && config.url.indexOf(constants.apiBasePath) > -1) {
+                       // persist the token
+                       // make logout work
+                       // redirect to login whenever you're logged out
+                       // redirect to notes whenever you're logged in
+                       // usability
+                       // SET sessionstorage.token = token
+
                        config.headers['Authorization'] = token;
                    }
                    return config;
