@@ -5,10 +5,9 @@
     angular.module('notely.notes.service', [])
         .service('notesservice', notesservice);
 
-    notesservice['$inject'] = ['$http', '$filter', '$state'];
-    function notesservice($http, $filter, $state) {
+    notesservice['$inject'] = ['$http', '$filter', '$state', 'constants'];
+    function notesservice($http, $filter, $state, constants) {
         var notes = [];
-        var neverNoteBaseURL = 'https://nevernote-1150.herokuapp.com/api/v1/';
         var user = {
             apiKey: '$2a$10$JXHjElOLYsAYst9zbwjpBON0Wf0ECAKsZSugAB93FwqUps9t6Ngq6'
         };
@@ -20,7 +19,7 @@
         }
 
         this.fetchNotes = function () {
-            return $http.get(neverNoteBaseURL + 'notes?api_key=' + user.apiKey)
+            return $http.get(constants.apiBasePath + 'notes?api_key=' + user.apiKey)
                 .success(function (notesData) {
                     notes = notesData;
                 });
@@ -71,7 +70,7 @@
         };
 
         this.createNote = function (note) {
-            return $http.post(neverNoteBaseURL + '/notes', {
+            return $http.post(constants.apiBasePath + '/notes', {
                 api_key: user.apiKey,
                 note: {
                     title: note.title,
@@ -86,7 +85,7 @@
 
         this.updateNote = function (note) {
             var vm = this;
-            return $http.put(neverNoteBaseURL + '/notes/' + note.id, {
+            return $http.put(constants.apiBasePath + '/notes/' + note.id, {
                 api_key: user.apiKey,
                 note: {
                     title: note.title,
@@ -101,7 +100,7 @@
 
         this.deleteNote = function (note) {
             var self = this;
-            return $http.delete(neverNoteBaseURL + 'notes/' + note.id + '?api_key=' + user.apiKey)
+            return $http.delete(constants.apiBasePath + 'notes/' + note.id + '?api_key=' + user.apiKey)
                 .success(function (noteData) {
                     self.removeNote(note);
                     //notes.splice(notes.indexOf(note.id));

@@ -3,11 +3,11 @@
  */
 (function() {
     angular.module('notely.login', [])
-        .config(LoginConfig)
+        .config(loginConfig)
         .controller(LoginController);
 
-    LoginConfig['$inject'] = ['$stateProvider'];
-    function LoginConfig($stateProvider) {
+    loginConfig['$inject'] = ['$stateProvider'];
+    function loginConfig($stateProvider) {
         $stateProvider
 
             .state('login', {
@@ -24,15 +24,16 @@
             );
     }
 
-    LoginController['$inject'] = ['$scope'];
-    function LoginController($scope) {
+    LoginController['$inject'] = ['$scope', '$state'];
+    function LoginController($scope, $state) {
         $scope.user = {
-            username: {},
-            password: {}
+
         };
-        /*$scope.login = function() {
-            loginservice.login($scope.user);
-        }*/
+        $scope.login = function() {
+            console.log('LOGGING IN');
+            //loginservice.login($scope.user);
+            $state.go('notes.form');
+        }
     }
 
 })();
